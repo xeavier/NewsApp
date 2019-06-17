@@ -58,6 +58,8 @@ export class Tab1Page implements OnInit {
     this.paises.map(item => {
       botones.push({
         text:item['label'],
+        cssClass:'action-dark',
+        icon:'globe',        
         handler: () => {
           this.noticiasService.country = item['value'];
           this.noticiasService.headLinesPage = 0;
