@@ -13,7 +13,7 @@ export class Tab1Page implements OnInit {
   noticias: Article[] = [];
   paises:any[] = [
     { label:'Argentina', value:'ar' },
-    { label:'Estados Unidos', value:'us' },
+    { label:'India', value:'in' },
     { label:'Colombia', value:'co' },
     { label:'México', value:'mx' },
     { label:'Venezuela', value:'ve' },
