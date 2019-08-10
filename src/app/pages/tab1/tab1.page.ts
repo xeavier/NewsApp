@@ -1,6 +1,6 @@
 import { Article } from './../../app.interfaces';
 import { Component, OnInit } from '@angular/core';
-import { NoticiasService } from 'src/app/services/noticias.service';
+import { NewsService } from 'src/app/services/noticias.service';
 import { AlertController, ActionSheetController } from '@ionic/angular';
 
 @Component({
@@ -10,8 +10,8 @@ import { AlertController, ActionSheetController } from '@ionic/angular';
 })
 export class Tab1Page implements OnInit {
 
-  noticias: Article[] = [];
-  paises:any[] = [
+  news: Article[] = [];
+  countries: any[] = [
     { label:'Argentina', value:'ar' },
     { label:'India', value:'in' },
     { label:'Colombia', value:'co' },
@@ -20,70 +20,70 @@ export class Tab1Page implements OnInit {
   ]
   inputs:any[] = [];
 
-  constructor(private noticiasService:NoticiasService, private alertCtrl:AlertController,
+  constructor(private newsService: NewsService, private alertCtrl:AlertController,
               private actionSheetCtrl:ActionSheetController) {}
 
   ngOnInit(){
-    this.cargarNoticias();
+    this.loadNews();
   }
 
   loadData(event){
-    this.cargarNoticias(event);
+    this.loadNews(event);
   }
 
-  cargarNoticias(event?){
-    this.noticiasService.getTopHeadLines().subscribe(data => {
+  loadNews(event?){
+    this.newsService.getTopHeadLines().subscribe(data => {
       if(data.articles.length === 0){
         event.target.disabled = true;
         event.target.complete();
         return;
       }
-      this.noticias.push( ...data.articles );
+      this.news.push( ...data.articles );
       if(event){
         event.target.complete();
       }
     });
   }
 
-  async mostrarAction() {
+  async showAction() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Visualizar noticias de',
-      buttons: this.cargarBotones()
+      header: 'View news from',
+      buttons: this.load buttons()
     });
     await actionSheet.present();
   }
 
-  cargarBotones(){
-    let botones:any[] = []
-    this.paises.map(item => {
-      botones.push({
+  load buttons(){
+    let buttons: any[] = []
+    this.countries.map(item => {
+      buttons.push({
         text:item['label'],
         cssClass:'action-dark',
         icon:'globe',        
         handler: () => {
-          this.noticiasService.country = item['value'];
-          this.noticiasService.headLinesPage = 0;
-          this.noticias = [];
-          this.cargarNoticias();
+          this.newsService.country = item['value'];
+          this.newsService.headLinesPage = 0;
+          this.news = [];
+          this.loadNews();
         }
       });
     });
-    return botones
+    return buttons
   }
 
-  async mostrarAlert(){
+  async showAlert(){
     const alert = await this.alertCtrl.create({
-      header: 'Visualizar noticias de',
-      inputs: this.cargarInputs(),
+      header: 'View news from',
+      inputs: this.loadInputs(),
       buttons: [
         {
-          text: 'Cancelar',
+          text: 'Cancel',
           role: 'cancel',
           handler: () => {
             console.log('Confirm Cancel');
           }
         }, {
-          text: 'Aceptar',
+          text: 'Toaccept',
           handler: (data) => {
             console.log(data);
           }
@@ -93,9 +93,9 @@ export class Tab1Page implements OnInit {
     await alert.present();
   }
 
-  cargarInputs(){
+  loadInputs(){
     let inputs:any[] = []
-    this.paises.map(item => {
+    this.countries.map(item => {
       inputs.push({
         type:'checkbox',
         label:item['label'],
