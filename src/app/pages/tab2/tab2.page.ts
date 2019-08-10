@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { IonSegment } from '@ionic/angular';
-import { NoticiasService } from 'src/app/services/noticias.service';
+import { NewsService } from 'src/app/services/noticias.service';
 import { Article } from 'src/app/app.interfaces';
 
 @Component({
@@ -11,28 +11,28 @@ import { Article } from 'src/app/app.interfaces';
 export class Tab2Page implements OnInit{
 
   @ViewChild(IonSegment) segment:IonSegment;
-  categorias:any[] =['technology','science','sports','business','entertainment','general','health'];
-  noticias:Article[] = [];
+  categories: any[] =['technology','science','sports','business','entertainment','general','health'];
+  news: Article[] = [];
 
-  constructor(private noticiasService:NoticiasService){}
+  constructor(private newsService: NewsService){}
   
   ngOnInit(){
-    this.segment.value = this.categorias[0];
-    this.cargarNoticias(this.categorias[0]);    
+    this.segment.value = this.categories[0];
+    this.loadNews(this.categories[0]);    
   }
 
   loadData(event){
-    this.cargarNoticias(this.segment.value,event);
+    this.loadNews(this.segment.value,event);
   }
 
-  cambioCategoria(event){
-    this.noticias = [];
-    this.cargarNoticias(event.detail.value);
+  changeCategory(event){
+    this.news = [];
+    this.loadNews(event.detail.value);
   }
 
-  cargarNoticias(categoria:string,event?){
-    this.noticiasService.getTopHeadLinesCategories(categoria).subscribe(resp => {
-      this.noticias.push(...resp.articles);
+  loadNews(category: string,event?){
+    this.newsService.getTopHeadLinesCategories(category).subscribe(resp => {
+      this.news.push(...resp.articles);
       if(event){
         event.target.complete();
       }
