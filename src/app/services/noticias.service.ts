@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RespuestaTopHeadLines } from '../app.interfaces';
+import { AnswerTopHeadLines } from '../app.interfaces';
 import { environment } from 'src/environments/environment';
 
 const apiKey = environment.apiKey;
@@ -10,7 +10,7 @@ const headers = new HttpHeaders({'X-Api-key':apiKey});
 @Injectable({
   providedIn: 'root'
 })
-export class NoticiasService {
+export class NewsService {
 
   headLinesPage:number = 0;
   country:string = 'co';
@@ -26,7 +26,7 @@ export class NoticiasService {
 
   getTopHeadLines(){
     this.headLinesPage++;
-    return this.runQuery<RespuestaTopHeadLines>(`/top-headlines?country=${this.country}&page=${this.headLinesPage}`)
+    return this.runQuery<AnswerTopHeadLines>(`/top-headlines?country=${this.country}&page=${this.headLinesPage}`)
   }
 
   getTopHeadLinesCategories(category: string){
@@ -36,6 +36,6 @@ export class NoticiasService {
       this.CategoryPage = 1;
       this.Currentcategory = category;
     }
-    return this.runQuery<RespuestaTopHeadLines>(`/top-headlines?country=${this.country}&category=${categoria}&page=${this.categoriaPage}`);
+    return this.runQuery<AnswerTopHeadLines>(`/top-headlines?country=${this.country}&category=${category}&page=${this.CategoryPage}`);
   }
 }
