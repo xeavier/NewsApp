@@ -1,4 +1,4 @@
-export interface RespuestaTopHeadLines {
+export interface AnswerTopHeadLines {
     status: string,
     totalResults: number,
     articles: Article[];
