@@ -8,37 +8,37 @@ import { ToastController } from '@ionic/angular';
 })
 export class DataLocalService {
 
-  noticias:Article[] = [];
+  news: Article[] = [];
 
   constructor(private storage: Storage, private toastCtrl: ToastController) {
-    this.cargarFavoritos();
+    this.loadfavorites();
   }
 
-  async mostrarToast(mensaje:string){
+  async showToast(message: string){
     const toast = await this.toastCtrl.create({
-      message: mensaje,
+      message: message,
       duration: 1500
     });
     toast.present();
   }
 
-  guardarNoticia(noticia:Article){
-    const existe = this.noticias.find(noti => noti.title === noticia.title);
-    if(!existe){
-      this.noticias.unshift(noticia);
-      this.storage.set('favoritos', this.noticias);  
-      this.mostrarToast('Agregado a favoritos')
+  saveNews(news: Article){
+    const exists = this.news.find(noti => noti.title === news.title);
+    if(!exists){
+      this.news.unshift(news);
+      this.storage.set('favorites', this.news);  
+      this.showToast('Added to favorites')
     }
   }
 
-  borrarNoticia(noticia:Article){
-    this.noticias = this.noticias.filter(noti => noti.title !== noticia.title);
-    this.storage.set('favoritos', this.noticias);  
-    this.mostrarToast('Eliminado de favoritos')
+  deleteNews(news: Article){
+    this.news = this.news.filter(noti => noti.title !== news.title);
+    this.storage.set('favorites', this.news);  
+    this.showToast('Deleted from favorites')
   }
 
-  async cargarFavoritos(){
-    const favoritos= await this.storage.get('favoritos');
-    favoritos && (this.noticias = favoritos);
+  async loadfavorites(){
+    const favorites= await this.storage.get('favorites');
+    favorites && (this.news = favorites);
   }
 }
